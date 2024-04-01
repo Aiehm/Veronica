@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Recognition</title>
+    <link rel="icon" href="images/faviconb.gif" type="image/gif" />
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        /* Gradient from purple to light blue */
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+
+      h1 {
+        font-weight: 600;
+      }
+      .content {
+        color: aliceblue;
+
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: 400;
+        text-align: center;
+      }
+    </style>
+    <div class="content">
+      <h1>Magsino AI's</h1>
+      <p>by Anaiah Magsino</p>
+    </div>
+    <script>
+      // Check browser support for SpeechRecognition
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!window.SpeechRecognition) {
+        alert("Speech Recognition is not supported in your browser.");
+      } else {
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US"; // Set recognition language
+
+        recognition.continuous = true; // Keep listening
+
+        // Event handler when speech is recognized
+        recognition.onresult = function (event) {
+          const command = event.results[event.results.length - 1][0].transcript
+            .trim()
+            .toLowerCase();
+
+          // Check recognized command and perform action
+          if (command.includes("veronica")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("wake up")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("hey")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("hello")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("hey")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("ronica")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("ronnie")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("nica")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("nika")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("vero")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("veronnie")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("ver")) {
+            window.location.href = "partnewconcept.html";
+          }
+          if (command.includes("veroni")) {
+            window.location.href = "partnewconcept.html";
+          }
+        };
+
+        // Start recognition
+        recognition.start();
+      }
+    </script>
+  </body>
+</html>

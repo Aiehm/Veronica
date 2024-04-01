@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magsino's Database</title>
+    <style>
+      .outpt1 {
+        color: rgb(76, 171, 254);
+        font-family: monospace;
+        text-align: center;
+        margin-top: 250px;
+        font-size: 150%;
+      }
+      body {
+        background-color: rgb(33, 38, 53);
+      }
+      .he1 {
+        font-size: 170%;
+        font-family: Verdana;
+        color: rgb(255, 255, 255);
+        margin-left: 530px;
+        margin-top: 5px;
+        position: static;
+      }
+      .butt1 {
+        margin-top: 40px;
+        margin-left: 450px;
+        margin-bottom: 350px;
+        display: block;
+        width: 30%;
+        border: none;
+        background-color: #ffffff;
+        padding: 10px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        font-size: 200%;
+        font-family: fantasy;
+        color: rgb(0, 50, 233);
+        transition-duration: 0.2s;
+        border: 3px solid rgb(0, 54, 192);
+        position: static;
+      }
+      .butt1:hover {
+        background-color: rgb(0, 65, 230);
+        color: rgb(87, 123, 255);
+        position: static;
+        border: 3px solid rgb(0, 72, 255);
+      }
+      .veronicabg {
+        margin-top: 150px;
+        margin-left: 425px;
+        width: 100px;
+        margin-bottom: -70px;
+      }
+      .outpt2 {
+        color: rgb(76, 171, 254);
+        font-family: monospace;
+        text-align: center;
+        margin-top: 0px;
+        font-size: 150%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="image-gallery"></div>
+    <div class="outpt2" id="output"></div>
+    <img class="veronicabg" src="images/favicon.png" alt="" />
+
+    <h1 class="he1">Movie Database</h1>
+    <button class="butt1" id="startButton">Start</button>
+    <div class="outpt1" id="output"></div>
+    <script>
+      const startButton = document.getElementById("startButton");
+      const output = document.getElementById("output");
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = "en-US";
+
+      startButton.addEventListener("click", () => {
+        recognition.start();
+        output.innerHTML = "Listening...";
+      });
+
+      recognition.onresult = (event) => {
+        const result = event.results[0][0].transcript;
+        output.innerHTML = "You said: " + result;
+        fetchMovieInfo(result);
+      };
+
+      // Function to fetch movie information from TMDB API
+      function fetchMovieInfo(result) {
+        // Your TMDB API key
+        const apiKey = "6e1828e79af37d92c8e9621100b4688d";
+        const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${result}`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            // Display movie information
+            if (data.results && data.results.length > 0) {
+              const movie = data.results[0];
+              const output = `
+                                  <h2>${movie.title}</h2>
+                                  <p>${movie.overview}</p>
+                                  <p>Release Date: ${movie.release_date}</p>
+                                  <p>Rating: ${movie.vote_average}</p>
+                                  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} Poster">
+                              `;
+              document.getElementById("output").innerHTML = output;
+            } else {
+              document.getElementById("output").innerHTML =
+                "<p>No movie found</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching movie information:", error);
+            document.getElementById("output").innerHTML =
+              "<p>Error fetching movie information</p>";
+          });
+      }
+
+      // Function to handle speech recognition
+      function startSpeechRecognition() {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.onresult = function (event) {
+          const speechToText = event.results[0][0].transcript;
+          fetchMovieInfo(speechToText);
+          recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById("search-input").value = transcript;
+            fetchImages(transcript);
+          };
+        };
+        recognition.start();
+      }
+    </script>
+  </body>
+</html>

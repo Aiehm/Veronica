@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter</title>
+  </head>
+  <body>
+    <h1>Currency Converter</h1>
+    <div id="conversion-info"></div>
+
+    <script>
+      // Function to fetch currency exchange rates from an API
+      function fetchCurrencyExchange(baseCurrency) {
+        const apiKey = "1b85bcd00e-a8723eaff2-sawfu8"; // Replace 'YOUR_API_KEY' with your actual API key
+        const apiUrl = `https://api.example.com/currencies/latest?base=${baseCurrency}&apikey=${apiKey}`;
+
+        return fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            return data.rates; // Assuming the API returns currency conversion rates
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+            return null;
+          });
+      }
+
+      // Function to update the HTML content with currency conversion
+      function displayCurrencyConversion(baseCurrency, rates) {
+        const conversionInfoDiv = document.getElementById("conversion-info");
+        let conversionHTML = `<h2>Conversion from ${baseCurrency}:</h2><ul>`;
+
+        // Assuming we're converting to Philippine Pesos (PHP)
+        conversionHTML += `<li>Philippine Pesos (PHP): ${rates["PHP"]}</li>`;
+
+        // Add more conversion options here if needed
+
+        conversionHTML += `</ul>`;
+        conversionInfoDiv.innerHTML = conversionHTML;
+      }
+
+      // Function for speech recognition
+      function initSpeechRecognition() {
+        const recognition = new (window.SpeechRecognition ||
+          window.webkitSpeechRecognition ||
+          window.mozSpeechRecognition ||
+          window.msSpeechRecognition)();
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById("base-currency").value = transcript;
+          fetchAndDisplayCurrencyConversion(transcript);
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error:", event.error);
+        };
+
+        document
+          .getElementById("start-recognition")
+          .addEventListener("click", function () {
+            recognition.start();
+          });
+      }
+
+      // Function to fetch and display currency conversion based on user input
+      function fetchAndDisplayCurrencyConversion(baseCurrency) {
+        fetchCurrencyExchange(baseCurrency).then((rates) => {
+          if (rates !== null) {
+            displayCurrencyConversion(baseCurrency, rates);
+          } else {
+            document.getElementById(
+              "conversion-info"
+            ).innerHTML = `<p>No data available for ${baseCurrency}</p>`;
+          }
+        });
+      }
+
+      // Initialize speech recognition
+      initSpeechRecognition();
+    </script>
+
+    <!-- HTML Form for input -->
+    <form>
+      <label for="base-currency">Enter Base Currency:</label>
+      <input
+        type="text"
+        id="base-currency"
+        name="base-currency"
+        placeholder="e.g., USD"
+      />
+      <button type="button" id="start-recognition">Speak</button>
+      <button
+        type="button"
+        onclick="fetchAndDisplayCurrencyConversion(document.getElementById('base-currency').value)"
+      >
+        Submit
+      </button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magsino AI | Login</title>
+    <style>
+      h1 {
+        font-family: monospace;
+        font-size: 250%;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(33, 38, 53);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: monospace;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-family: monospace;
+      }
+      .butt1:hover {
+        background-color: #022ea8;
+      }
+      .butt1 {
+        text-align: center;
+        block-size: 30px;
+        margin-left: 6.5px;
+        margin-top: 150px;
+        border-radius: 4px;
+        border: 4px;
+        color: white;
+        padding: 7px 8px;
+        background-color: #0039d6;
+        text-align: left;
+      }
+      form {
+        color: #fff;
+        background-color: rgb(22, 30, 51);
+      }
+
+      input[type="submit"]:hover {
+        background-color: #022ea8;
+      }
+      input[type="submit"] {
+        background-color: #0039d6;
+      }
+      input {
+        font-family: monospace;
+        font-weight: 600;
+      }
+      label {
+        font-family: monospace;
+        font-weight: 600;
+      }
+      h2 {
+        font-family: monospace;
+      }
+      .Magsino {
+        width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="loginForm">
+      <h1>Magsino AI's</h1>
+      <h2>Login</h2>
+      <label for="email">Email:</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        placeholder="Your email.."
+        required
+      />
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Your password.."
+        required
+      />
+      <input type="submit" value="Login" />
+    </form>
+    <button class="butt1" type="button" id="showPassword">Show</button>
+
+    <script>
+      function closePageProtocol() {
+        window.close();
+      }
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          var email = document.getElementById("email").value;
+          var password = document.getElementById("password").value;
+
+          console.log("Email:", email);
+          console.log("Password:", password);
+          if (
+            (email === "aiehmmagsino143@gmail.com", password === "Veronica0888")
+          ) {
+            callSelf();
+            window.location.href = "http://127.0.0.1:5500/V.E.R.O.N.I.C.A.html";
+            console.log("Successful Input");
+          } else console.log("Invalid Input");
+          closePageProtocol();
+          window.location.href = "closepage.html";
+        });
+
+      document
+        .getElementById("showPassword")
+        .addEventListener("click", function () {
+          var passwordField = document.getElementById("password");
+          if (passwordField.type === "password") {
+            passwordField.type = "text";
+            this.textContent = "Hide";
+          } else {
+            passwordField.type = "password";
+            this.textContent = "Show";
+          }
+        });
+
+      function callSelf() {
+        var voices = window.speechSynthesis.getVoices();
+
+        var femaleVoice = voices.find(function (voice) {
+          return voice.name === "Microsoft Zira - English (United States)";
+        });
+
+        var utterance = new SpeechSynthesisUtterance("Welcome Back Boss");
+        utterance.voice = femaleVoice || voices[0];
+        window.speechSynthesis.speak(utterance);
+      }
+    </script>
+  </body>
+</html>

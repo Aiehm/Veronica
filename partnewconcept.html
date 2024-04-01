@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magsino's AI</title>
+    <link rel="icon" href="images/favicon1.gif" type="image/gif" />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #20269b, #4952ff);
+      /* Gradient from purple to light blue */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    h1 {
+      font-weight: 600;
+    }
+    .content {
+      color: aliceblue;
+
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: 400;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <div class="content">
+      <h1>Magsino AI's</h1>
+      <p>by Anaiah Magsino</p>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+      function getTimeAndGreet() {
+        var voices = window.speechSynthesis.getVoices();
+
+        var femaleVoice = voices.find(function (voice) {
+          return voice.name === "Microsoft Zira - English (United States)";
+        });
+
+        let today = new Date();
+        let hour = today.getHours();
+        let minute = today.getMinutes();
+        let period;
+        let greeting;
+
+        if (hour >= 5 && hour < 12) {
+          period = "morning";
+          greeting = "Good morning Boss!";
+        } else if (hour >= 12 && hour < 18) {
+          period = "afternoon";
+          greeting = "Good afternoon Boss!";
+        } else {
+          period = "evening";
+          greeting = "Good evening Boss!";
+        }
+        if (hour >= 22) {
+          alarm = "It's Time to Sleep";
+          const message = new SpeechSynthesisUtterance(alarm);
+          window.speechSynthesis.speak(message);
+        }
+
+        hour = hour % 12 || 12;
+        minute = minute < 10 ? "0" + minute : minute;
+
+        var utterance = new SpeechSynthesisUtterance(
+          `${greeting} It's ${hour}:${minute} in the ${period}.`
+        );
+        utterance.voice = femaleVoice || voices[0];
+        window.speechSynthesis.speak(utterance);
+
+        let speech = new SpeechSynthesisUtterance();
+        window.speechSynthesis.speak(speech);
+      }
+
+      // Check if browser supports speech recognition
+      if ("webkitSpeechRecognition" in window) {
+        var recognition = new webkitSpeechRecognition();
+
+        // Continuous mode - listens without a break
+        recognition.continuous = false;
+        var hasSpeechInput = false; // Flag to track if speech input was received
+
+        recognition.onstart = function () {
+          console.log("Speech recognition started...");
+        };
+
+        recognition.onresult = function (event) {
+          var transcript =
+            event.results[event.results.length - 1][0].transcript.trim();
+          if (transcript !== "") {
+            document.getElementById("output").innerHTML += transcript + "<br>";
+            console.log("Speech recognized: " + transcript);
+            hasSpeechInput = true; // Set flag to true when speech input is detected
+          }
+          if (transcript === "go to sleep") {
+            window.location.href = "newconcept.html";
+          }
+          if (transcript === "power down veronica") {
+            window.location.href = "https://www.google.com";
+          }
+          if (transcript === "good morning") {
+            getTimeAndGreet();
+          }
+          if (transcript === "good afternoon") {
+            getTimeAndGreet();
+          }
+          if (transcript === "good evening") {
+            getTimeAndGreet();
+          }
+          if (transcript.includes("what time")) {
+          }
+          if (transcript.includes("whats the time")) {
+          }
+          if (transcript === "open chat gpt") {
+            window.open("https://chat.openai.com/", "_blank");
+          }
+          if (transcript === "open facebook") {
+            window.open("https://www.facebook.com/", "_blank");
+          }
+          if (transcript === "open instagram") {
+            window.open("https://www.instagram.com/", "_blank");
+          }
+          if (transcript === "open tiktok") {
+            window.open("https://www.tiktok.com/", "_blank");
+          }
+          if (transcript === "open pinterest") {
+            window.open("https://www.pinterest.com/", "_blank");
+          }
+          if (transcript === "open youtube") {
+            window.open("https://www.youtube.com/", "_blank");
+            window.location.href = "newconcept.html";
+          } else {
+            console.log("No speech input detected.");
+          }
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error:", event.error);
+          window.location.href = "newconcept.html";
+        };
+
+        recognition.onend = function () {
+          console.log("Speech recognition ended.");
+          if (!hasSpeechInput) {
+            // If no speech input was received, navigate to another page
+            window.location.href = "newconcept.html";
+          } else {
+            console.log("Restarting recognition...");
+            recognition.start(); // Restart recognition if there was speech input
+          }
+        };
+
+        recognition.start(); // Start recognition
+      } else {
+        console.error("Speech recognition not supported by this browser.");
+      }
+    </script>
+  </body>
+</html>
